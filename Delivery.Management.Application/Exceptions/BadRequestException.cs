@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Delivery.Management.Application.Exceptions
 {
-    internal class BadRequestException
+    public class BadRequestException : ApplicationException
     {
+        public BadRequestException(string message) : base(message) 
+        {
+
+        }
     }
 }

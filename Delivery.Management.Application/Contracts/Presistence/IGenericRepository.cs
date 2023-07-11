@@ -12,7 +12,7 @@ namespace Delivery.Management.Application.Contracts.Presistence
         Task<IReadOnlyList<T>> GetAllAsync();
         Task<T> AddAsync(T entity);
         Task<bool> Exists(int id);
-        Task<T> UpdateAsync(T entity);
-        Task<T> DeleteAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
     }
 }
