@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Delivery.Management.Application.DTOs.DeliveryAllocation
 {
-    internal class IDeliveryAllocationDto
+    public interface IDeliveryAllocationDto
     {
+        public string Warehouse { get; set; }
+        public string Section { get; set; }
     }
 }

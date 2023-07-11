@@ -9,5 +9,6 @@ namespace Delivery.Management.Application.Contracts.Presistence
 {
     public interface IDeliveryTypeRepository : IGenericRepository<DeliveryType>
     {
+
     }
 }

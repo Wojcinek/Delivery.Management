@@ -10,5 +10,6 @@ namespace Delivery.Management.Application.Contracts.Presistence
 {
     public interface IDeliveryAllocationRepository : IGenericRepository<DeliveryAllocation>
     {
+
     }
 }

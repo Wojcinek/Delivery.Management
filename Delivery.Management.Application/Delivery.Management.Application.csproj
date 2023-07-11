@@ -16,11 +16,4 @@
     <ProjectReference Include="..\Delivery.Management.Domain\Delivery.Management.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\DeliveryRequests\" />
-    <Folder Include="Features\DeliveryAllocations\" />
-    <Folder Include="Features\DeliveryTypes\Handlers\Commands\" />
-    <Folder Include="Features\DeliveryTypes\Requests\Commands\" />
-  </ItemGroup>
-
 </Project>

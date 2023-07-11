@@ -9,6 +9,8 @@ namespace Delivery.Management.Application.Contracts.Presistence
 {
     public interface IDeliveryRequestRepository : IGenericRepository<DeliveryRequest>
     {
+        Task<DeliveryRequest> GetDeliveryRequestWithDetails(int id);
 
+        Task<List<DeliveryRequest>> GetDeliveryRequestWithDetails();
     }
 }
