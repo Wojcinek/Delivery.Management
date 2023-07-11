@@ -1,6 +1,6 @@
 using Delivery.Management.Application;
 using Delivery.Management.Persistence;
-
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,9 +9,10 @@ builder.Services.ConfigureApplicationServices();
 builder.Services.ConfigurePersistenceServices(builder.Configuration);
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Delivery Managment Api", Version = "v1" });
+});
 
 builder.Services.AddCors(o =>
 {
@@ -24,18 +25,21 @@ builder.Services.AddCors(o =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+    if (app.Environment.IsDevelopment())
+    {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+    app.UseAuthentication();
 
-app.UseAuthorization();
+    app.UseHttpsRedirection();
 
-app.UseCors("CorsPolicy");
+    app.UseAuthorization();
 
-app.MapControllers();
+    app.UseCors("CorsPolicy");
 
-app.Run();
+    app.MapControllers();
+
+    app.Run();
+
