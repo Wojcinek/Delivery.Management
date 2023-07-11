@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Delivery.Management.Application.Contracts.Presistence;
+using Delivery.Management.Application.DTOs.DeliveryAllocation.Validators;
+using Delivery.Management.Application.Exceptions;
 using Delivery.Management.Application.Features.DeliveryAllocations.Requests.Commands;
+using Delivery.Management.Application.Responses;
 using Delivery.Management.Domain;
 using MediatR;
 
 namespace Delivery.Management.Application.Features.DeliveryAllocations.Handlers.Commands
 {
-    public class CreateDeliveryAllocationCommandHandler : IRequestHandler<CreateDeliveryAllocationCommand, int>
+    public class CreateDeliveryAllocationCommandHandler : IRequestHandler<CreateDeliveryAllocationCommand, BaseCommandResponse>
     {
         private readonly IDeliveryAllocationRepository _deliveryAllocationRepository;
         private readonly IMapper _mapper;
@@ -22,13 +25,29 @@ namespace Delivery.Management.Application.Features.DeliveryAllocations.Handlers.
             _mapper = mapper;
         }
 
-        public async Task<int> Handle(CreateDeliveryAllocationCommand request, CancellationToken cancellationToken)
+        public async Task<BaseCommandResponse> Handle(CreateDeliveryAllocationCommand request, CancellationToken cancellationToken)
         {
-            var deliveryAllocation = _mapper.Map<DeliveryAllocation>(request.DeliveryAllocationDto);
+            var response = new BaseCommandResponse();
+            var validator = new CreateDeliveryAllocationDtoValidator();
+            var validationResult = await validator.ValidateAsync(request.DeliveryAllocationDto);
 
-            deliveryAllocation = await _deliveryAllocationRepository.AddAsync(deliveryAllocation);
+            if (validationResult.IsValid == false)
+            {
+                response.Success = false;
+                response.Message = "Creation Failed";
+                response.Errors = validationResult.Errors.Select(q => q.ErrorMessage).ToList();
+            }
+            else
+            {
+                var deliveryAllocation = _mapper.Map<DeliveryAllocation>(request.DeliveryAllocationDto);
 
-            return deliveryAllocation.Id;
+                deliveryAllocation = await _deliveryAllocationRepository.AddAsync(deliveryAllocation);
+
+                response.Success = true;
+                response.Message = "Creation Successful";
+                response.Id = deliveryAllocation.Id;
+            }
+            return response;
         }
     }
 }

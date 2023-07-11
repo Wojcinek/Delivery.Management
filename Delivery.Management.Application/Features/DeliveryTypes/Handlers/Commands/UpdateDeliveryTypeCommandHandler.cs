@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Delivery.Management.Application.Contracts.Presistence;
+using Delivery.Management.Application.DTOs.DeliveryType.Validators;
+using Delivery.Management.Application.Exceptions;
 using Delivery.Management.Application.Features.DeliveryTypes.Requests.Commands;
 using MediatR;
 
@@ -23,6 +25,14 @@ namespace Delivery.Management.Application.Features.DeliveryTypes.Handlers.Comman
 
         public async Task<Unit> Handle(UpdateDeliveryTypeCommand request, CancellationToken cancellationToken)
         {
+            var validator = new UpdateDeliveryTypeDtoValidator();
+            var validationResult = await validator.ValidateAsync(request.DeliveryTypeDto);
+
+            if (validationResult.IsValid == false)
+            {
+                throw new ValidationException(validationResult);
+            }
+
             var deliveryType = await _deliveryTypeRepository.GetAsync(request.DeliveryTypeDto.Id);
 
             _mapper.Map(request.DeliveryTypeDto, deliveryType);

@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Delivery.Management.Application.Contracts.Presistence;
+using Delivery.Management.Application.Exceptions;
 using Delivery.Management.Application.Features.DeliveryRequests.Requests.Command;
+using Delivery.Management.Domain;
 using MediatR;
 
 namespace Delivery.Management.Application.Features.DeliveryRequests.Handlers.Command
@@ -24,6 +26,11 @@ namespace Delivery.Management.Application.Features.DeliveryRequests.Handlers.Com
         public async Task<Unit> Handle(DeleteDeliveryRequestCommand request, CancellationToken cancellationToken)
         {
             var deliveryRequest = await _deliveryRequestRepository.GetAsync(request.Id);
+
+            if (deliveryRequest == null)
+            {
+                throw new NotFoundException(nameof(DeliveryRequest), request.Id);
+            }
 
             await _deliveryRequestRepository.DeleteAsync(deliveryRequest);
 
