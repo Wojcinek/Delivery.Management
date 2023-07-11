@@ -7,7 +7,7 @@ using Delivery.Management.Application.DTOs.Common;
 
 namespace Delivery.Management.Application.DTOs.DeliveryAllocation
 {
-    public class DeliveryAllocationDto : BaseDto
+    public class DeliveryAllocationDto : BaseDto, IDeliveryAllocationDto
     {
         public string Warehouse { get; set; }
         public string Section { get; set; }

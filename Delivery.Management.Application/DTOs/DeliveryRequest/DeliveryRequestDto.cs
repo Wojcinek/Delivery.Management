@@ -9,7 +9,7 @@ using Delivery.Management.Application.DTOs.DeliveryType;
 
 namespace Delivery.Management.Application.DTOs.DeliveryRequest
 {
-    public class DeliveryRequestDto : BaseDto
+    public class DeliveryRequestDto : BaseDto, IDeliveryRequestDto
     {
         public DeliveryTypeDto DeliveryType { get; set; }
         public int DeliveryTypeId { get; set; }
