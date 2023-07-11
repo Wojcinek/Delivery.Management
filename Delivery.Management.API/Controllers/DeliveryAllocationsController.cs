@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Delivery.Management.Application.DTOs.DeliveryAllocation;
+using Delivery.Management.Application.DTOs.DeliveryType;
+using Delivery.Management.Application.Features.DeliveryAllocations.Requests.Commands;
+using Delivery.Management.Application.Features.DeliveryAllocations.Requests.Queries;
+using Delivery.Management.Application.Features.DeliveryTypes.Requests.Commands;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +14,55 @@ namespace Delivery.Management.API.Controllers
     [ApiController]
     public class DeliveryAllocationsController : ControllerBase
     {
+        public readonly IMediator _mediator;
+        public DeliveryAllocationsController(IMediator mediator) 
+        {
+            _mediator = mediator;
+        }
+
         // GET: api/<DeliveryAllocationsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<List<DeliveryAllocationDto>>> Get()
         {
-            return new string[] { "value1", "value2" };
-        }
+            var deliveryAllocations = await _mediator.Send(new GetDeliveryAllocationListRequest());
+            return Ok(deliveryAllocations);
+        } 
 
         // GET api/<DeliveryAllocationsController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<DeliveryAllocationDto>> Get(int id)
         {
-            return "value";
+            var deliveryAllocation = await _mediator.Send(new GetDeliveryAllocationDetailRequest { Id = id });
+            return Ok(deliveryAllocation);
         }
 
         // POST api/<DeliveryAllocationsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult> Post([FromBody] CreateDeliveryAllocationDto deliveryAllocation)
         {
+            var command = new CreateDeliveryAllocationCommand { DeliveryAllocationDto = deliveryAllocation };
+            var response = await _mediator.Send(command);
+            return Ok(response);
         }
 
         // PUT api/<DeliveryAllocationsController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put([FromBody] DeliveryAllocationDto deliveryAllocation)
         {
+            var command = new UpdateDeliveryAllocationCommand { DeliveryAllocationDto= deliveryAllocation };
+            await _mediator.Send(command);
+            return NoContent();
         }
 
         // DELETE api/<DeliveryAllocationsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            var command = new DeleteDeliveryAllocationCommand {  Id = id };
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }
