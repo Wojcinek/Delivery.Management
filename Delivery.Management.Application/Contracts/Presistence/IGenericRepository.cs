@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Delivery.Management.Application.Contracts.Presistence
 {
-    internal class IGenericRepository
+    public interface IGenericRepository<T> where T : class
     {
+        Task<T> GetAsync(int id);
+        Task<IReadOnlyList<T>> GetAllAsync();
+        Task<T> AddAsync(T entity);
+        Task<T> UpdateAsync(T entity);
+        Task<T> DeleteAsync(T entity);
     }
 }

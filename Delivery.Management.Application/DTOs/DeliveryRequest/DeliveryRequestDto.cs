@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Delivery.Management.Domain.Common;
+using Delivery.Management.Application.DTOs.Common;
+using Delivery.Management.Application.DTOs.DeliveryAllocation;
+using Delivery.Management.Application.DTOs.DeliveryType;
 
-namespace Delivery.Management.Domain
+namespace Delivery.Management.Application.DTOs.DeliveryRequest
 {
-    public class DeliveryRequest : BaseDomainEntity
+    public class DeliveryRequestDto : BaseDto
     {
-        public DeliveryType DeliveryType { get; set; }
+        public DeliveryTypeDto DeliveryType { get; set; }
         public int DeliveryTypeId { get; set; }
-        public DeliveryAllocation DeliveryAllocation { get; set; }
+        public DeliveryAllocationDto DeliveryAllocation { get; set; }
         public int DeliveryAllocationId { get; set; }
         public string City { get; set; }
         public string Street { get; set; }

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Delivery.Management.Domain;
 
 namespace Delivery.Management.Application.Contracts.Presistence
 {
-    internal class IDeliveryTypeRepository
+    public interface IDeliveryTypeRepository : IGenericRepository<DeliveryType>
     {
     }
 }
