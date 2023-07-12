@@ -9,9 +9,15 @@ builder.Services.ConfigureApplicationServices();
 builder.Services.ConfigurePersistenceServices(builder.Configuration);
 
 builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Delivery Managment Api", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    {
+        Version = "v1",
+        Title = "DeliveryManagment Api"
+    });
 });
 
 builder.Services.AddCors(o =>

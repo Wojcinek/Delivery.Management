@@ -3,6 +3,7 @@ using Delivery.Management.Application.DTOs.DeliveryType;
 using Delivery.Management.Application.Features.DeliveryAllocations.Requests.Commands;
 using Delivery.Management.Application.Features.DeliveryAllocations.Requests.Queries;
 using Delivery.Management.Application.Features.DeliveryTypes.Requests.Commands;
+using Delivery.Management.Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,7 +41,7 @@ namespace Delivery.Management.API.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult> Post([FromBody] CreateDeliveryAllocationDto deliveryAllocation)
+        public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateDeliveryAllocationDto deliveryAllocation)
         {
             var command = new CreateDeliveryAllocationCommand { DeliveryAllocationDto = deliveryAllocation };
             var response = await _mediator.Send(command);

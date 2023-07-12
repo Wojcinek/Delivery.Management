@@ -1,6 +1,12 @@
-﻿namespace Delivery.Management.MVC.Contracts
+﻿using System.Collections.Generic;
+
+namespace Delivery.Management.MVC.Contracts
 {
-    public class ILocalStorageService
+    public interface ILocalStorageService
     {
+        void ClearStorage(List<string> keys);
+        bool Exists(string key);
+        T GetStorageValue<T>(string key);
+        void SetStorageValue<T>(string key, T value);
     }
 }

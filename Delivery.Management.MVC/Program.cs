@@ -6,15 +6,11 @@ using Delivery.Management.MVC.Contracts;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddHttpClient<IClient, Client>(cl => cl.BaseAddress = new Uri("https://localhost:44309"));
+builder.Services.AddHttpClient<IClient, Client>(cl => cl.BaseAddress = new Uri("https://localhost:44328"));
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
-//builder.Services.AddScoped<IDelvieryAllocationController, DeliveryAllocationService>();
+builder.Services.AddScoped<IDeliveryAllocationService, DeliveryAllocationService>();
 
 builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
-
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

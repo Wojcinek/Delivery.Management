@@ -1,6 +1,16 @@
-﻿namespace Delivery.Management.MVC.Services.Base
+﻿using System.Net.Http;
+
+namespace Delivery.Management.MVC.Services.Base
 {
-    public class Client
+    public partial class Client : IClient
     {
+        public HttpClient HttpClient
+        {
+            get
+            {
+                return _httpClient;
+            }
+            
+        }
     }
 }

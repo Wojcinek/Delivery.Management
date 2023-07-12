@@ -14,7 +14,7 @@
 #pragma warning disable 3016 // Disable "CS3016 Arrays as attribute arguments is not CLS-compliant"
 #pragma warning disable 8603 // Disable "CS8603 Possible null reference return"
 
-namespace Delivery.Management.MVC.Services
+namespace Delivery.Management.MVC.Services.Base
 {
     using System = global::System;
 
@@ -32,12 +32,12 @@ namespace Delivery.Management.MVC.Services
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task DeliveryAllocationsPOSTAsync(CreateDeliveryAllocationDto body);
+        System.Threading.Tasks.Task<BaseCommandResponse> DeliveryAllocationsPOSTAsync(CreateDeliveryAllocationDto body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task DeliveryAllocationsPOSTAsync(CreateDeliveryAllocationDto body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<BaseCommandResponse> DeliveryAllocationsPOSTAsync(CreateDeliveryAllocationDto body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -170,13 +170,11 @@ namespace Delivery.Management.MVC.Services
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class Client : IClient
     {
-        private string _baseUrl = "";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public Client(string baseUrl, System.Net.Http.HttpClient httpClient)
+        public Client(System.Net.Http.HttpClient httpClient)
         {
-            BaseUrl = baseUrl;
             _httpClient = httpClient;
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
@@ -186,12 +184,6 @@ namespace Delivery.Management.MVC.Services
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
-        }
-
-        public string BaseUrl
-        {
-            get { return _baseUrl; }
-            set { _baseUrl = value; }
         }
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
@@ -215,7 +207,7 @@ namespace Delivery.Management.MVC.Services
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<DeliveryAllocationDto>> DeliveryAllocationsAllAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryAllocations");
+            urlBuilder_.Append("api/DeliveryAllocations");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -278,7 +270,7 @@ namespace Delivery.Management.MVC.Services
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task DeliveryAllocationsPOSTAsync(CreateDeliveryAllocationDto body)
+        public virtual System.Threading.Tasks.Task<BaseCommandResponse> DeliveryAllocationsPOSTAsync(CreateDeliveryAllocationDto body)
         {
             return DeliveryAllocationsPOSTAsync(body, System.Threading.CancellationToken.None);
         }
@@ -286,10 +278,10 @@ namespace Delivery.Management.MVC.Services
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task DeliveryAllocationsPOSTAsync(CreateDeliveryAllocationDto body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<BaseCommandResponse> DeliveryAllocationsPOSTAsync(CreateDeliveryAllocationDto body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryAllocations");
+            urlBuilder_.Append("api/DeliveryAllocations");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -302,6 +294,7 @@ namespace Delivery.Management.MVC.Services
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -326,7 +319,12 @@ namespace Delivery.Management.MVC.Services
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<BaseCommandResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == 400)
@@ -374,7 +372,7 @@ namespace Delivery.Management.MVC.Services
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryAllocations/{id}");
+            urlBuilder_.Append("api/DeliveryAllocations/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -452,7 +450,7 @@ namespace Delivery.Management.MVC.Services
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryAllocations/{id}");
+            urlBuilder_.Append("api/DeliveryAllocations/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -528,7 +526,7 @@ namespace Delivery.Management.MVC.Services
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryAllocations/{id}");
+            urlBuilder_.Append("api/DeliveryAllocations/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -597,7 +595,7 @@ namespace Delivery.Management.MVC.Services
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<DeliveryRequestDto>> DeliveryRequestsAllAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryRequests");
+            urlBuilder_.Append("api/DeliveryRequests");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -671,7 +669,7 @@ namespace Delivery.Management.MVC.Services
         public virtual async System.Threading.Tasks.Task DeliveryRequestsPOSTAsync(CreateDeliveryRequestDto body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryRequests");
+            urlBuilder_.Append("api/DeliveryRequests");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -746,7 +744,7 @@ namespace Delivery.Management.MVC.Services
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryRequests/{id}");
+            urlBuilder_.Append("api/DeliveryRequests/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -824,7 +822,7 @@ namespace Delivery.Management.MVC.Services
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryRequests/{id}");
+            urlBuilder_.Append("api/DeliveryRequests/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -900,7 +898,7 @@ namespace Delivery.Management.MVC.Services
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryRequests/{id}");
+            urlBuilder_.Append("api/DeliveryRequests/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -969,7 +967,7 @@ namespace Delivery.Management.MVC.Services
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<DeliveryTypeDto>> DeliveryTypesAllAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryTypes");
+            urlBuilder_.Append("api/DeliveryTypes");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1043,7 +1041,7 @@ namespace Delivery.Management.MVC.Services
         public virtual async System.Threading.Tasks.Task DeliveryTypesPOSTAsync(CreateDeliveryTypeDto body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryTypes");
+            urlBuilder_.Append("api/DeliveryTypes");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1115,7 +1113,7 @@ namespace Delivery.Management.MVC.Services
         public virtual async System.Threading.Tasks.Task DeliveryTypesPUTAsync(DeliveryTypeDto body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryTypes");
+            urlBuilder_.Append("api/DeliveryTypes");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1190,7 +1188,7 @@ namespace Delivery.Management.MVC.Services
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryTypes/{id}");
+            urlBuilder_.Append("api/DeliveryTypes/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -1268,7 +1266,7 @@ namespace Delivery.Management.MVC.Services
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/DeliveryTypes/{id}");
+            urlBuilder_.Append("api/DeliveryTypes/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -1337,7 +1335,7 @@ namespace Delivery.Management.MVC.Services
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WeatherForecast>> GetWeatherForecastAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/WeatherForecast");
+            urlBuilder_.Append("WeatherForecast");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1499,6 +1497,23 @@ namespace Delivery.Management.MVC.Services
             var result = System.Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class BaseCommandResponse
+    {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Id { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("success", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool Success { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("message", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Message { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("errors", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<string> Errors { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
